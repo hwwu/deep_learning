@@ -25,7 +25,6 @@ headers = {
     # 'Upgrade-Insecure-Requests': '1'
 }
 
-# y_url2 = 'http://www.iqiyi.com/a_19rrh9km3x.html#vfrm=2-4-0-1'
 y_url2 = 'http://www.iqiyi.com/lib/m_209926914.html?src=search'
 y_target2 = requests.get(url=y_url2).text
 y_soup2 = BeautifulSoup(y_target2, 'html.parser')
@@ -38,7 +37,7 @@ title2 = re.findall('(?<=title=\").*?(?=\">)', str(y_returnsoup2))
 j = len(title2)
 # 输出爬取结果
 for i in range(2, j - 2):
-    str1 = '第' + str(i+1) + '集'
+    str1 = '第' + str(i + 1) + '集'
     print(y_result2[i])
     print(str1, title2[i])
     xm_url = 'http://aikan-tv.com/?url=' + y_result2[i]
@@ -70,19 +69,19 @@ for i in range(2, j - 2):
     for l in tl:
         if l.find('.ts') > 0:
             new_index.append(l)
-
+    print(len(new_index), new_index)
     file_path = '/Users/liyangyang/Downloads/pachong/iqiyi/mid/fcxd/' + str1
     os.makedirs(file_path, exist_ok=True)
     for ii, ni in enumerate(new_index):
         url = 'https://acfun.iqiyi-kuyun.com' + ni
         r = requests.get(url, headers=headers)
         # print(url)
-        # content_length = int(r.headers['Content-Length'])
+        content_length = int(r.headers['Content-Length'])
         path = file_path + '/' + str(ii) + '.ts'
         with open(path, 'ab') as file:
             file.write(r.content)
             file.flush()
-            # print(ni, 'receive data，file size : %d   total size:%d' % (os.path.getsize(path), content_length))
+            print(ni, 'receive data，file size : %d' % (content_length))
 
     new_path = '/Users/liyangyang/Downloads/pachong/iqiyi/result/fcxd/' + str1
     os.makedirs(new_path, exist_ok=True)
